@@ -2,11 +2,11 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import StaleElementReferenceException
-
+from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-
+from selenium.common.exceptions import WebDriverException
 import json
 import re
 import time
@@ -54,6 +54,7 @@ class SeleniumWrapper:
             chrome_options.add_argument("--headless")
         else:
             chrome_options.add_argument("--start-maximized")
+        #chrome_options.add_argument("user-data-dir=C:\\Users\\Hadi\\AppData\\Local\\Google\\Chrome\\User Data")
         clear_selenium_commands_log()
 
         self.driver = LoggingWebDriver(options=chrome_options)

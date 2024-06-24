@@ -52,7 +52,9 @@ class ZeroShotAgent(ChromeGPTAgent):
         self.agent.agent.__dict__["get_full_inputs"] = types.MethodType(
             _get_full_inputs, self.agent.agent
         )
+        prompt_templates = self.get_promtps()
 
+        self.agent.agent.llm_chain.prompt.template = prompt_templates
     def run(self, tasks: List[str]) -> str:
         return self.agent.run(" ".join(tasks))
 
@@ -126,3 +128,47 @@ class BabyAGIAgent(ChromeGPTAgent):
 
     def run(self, tasks: List[str]) -> str:
         return str(self.babyagi({"objective": " ".join(tasks)}))
+
+    def get_promtps():
+        troubleshooting_template = """Use the following format:
+        Problem: the issue that needs to be resolved
+        Thought: consider possible causes and solutions
+        Action: the action to take, should be one of ["Search", "Calculator", "Ask for more info"]
+        Action Input: the input to the action
+        Observation: the result of the action
+        ... (this Thought/Action/Action Input/Observation can repeat N times)
+        Thought: I now have a solution or next step
+        Solution or Next Step: the proposed solution or next action to take
+
+        Problem: {input}
+
+        Assistant:
+        {agent_scratchpad}"""
+        form_template = """Use the following format:
+        Question: {input_question}
+        Thought: I need to identify the required fields in the form using Selenium.
+        Action: Search
+        Action Input: Use Selenium to identify the form fields on the page.
+        Observation: The form requires the following fields: {form_fields_identified_by_selenium}.
+
+        ... (repeat Thought/Action/Action Input/Observation for each field required by the form)
+
+        Thought: Now that I have identified all the required fields, I will ask the user for this information.
+        Action: Ask User
+        Action Input: Please provide your {first_field_name}.
+        Observation: The user provided their {user_input_for_first_field}.
+
+        ... (repeat Thought/Action/Action Input/Observation until all user inputs are collected)
+
+        Thought: I now have all the information needed to fill in the form.
+        Final Answer: The form has been filled with the provided user information."""
+
+        prompt_templates = {
+            'troubleshooting': troubleshooting_template,
+            'form': form_template
+        }
+
+        return prompt_templates
+
+
+    

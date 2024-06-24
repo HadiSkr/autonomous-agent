@@ -1,6 +1,7 @@
 from chromegpt.agent.autogpt import AutoGPTAgent
 from chromegpt.agent.chromegpt_agent import ChromeGPTAgent
 from chromegpt.agent.zeroshot import BabyAGIAgent, ZeroShotAgent
+import os
 
 
 def run_chromegpt(

@@ -39,7 +39,8 @@ Demo made by [Stefan Ayala](https://www.youtube.com/@Basecase_/featured)
 
 <h2 align="center"> 🛠️ Setup </h2>
 
-1. Set up your OpenAI [API Keys](https://platform.openai.com/account/api-keys) and add `OPENAI_API_KEY` env variable
+1. Set up your OpenAI [API Keys](https://platform.openai.com/account/api-keys) and add `
+` env variable
 2. Install Python requirements via poetry `poetry install`
 3. Open a poetry shell `poetry shell`
 4. Run chromegpt via `python -m chromegpt`
